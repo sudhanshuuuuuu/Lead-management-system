@@ -80,16 +80,17 @@ export default function LeadList({ refresh, filterTab, onLeadUpdated }) {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
-          <select
-            value={filter}
-            onChange={(e) => setFilter(e.target.value)}
-            className="border border-gray-300 p-2 rounded-xl text-white focus:ring-2 focus:ring-indigo-400 transition-all"
-          >
-            <option className="bg-black" value="All">All Sources</option>
-            <option className="bg-black" value="Website">Website</option>
-            <option className="bg-black" value="Meta Ads">Meta Ads</option>
-            <option className="bg-black" value="Google Ads">Google Ads</option>
-          </select>
+         <select
+  value={filter}
+  onChange={(e) => setFilter(e.target.value)}
+  className="border border-gray-300 p-2 rounded-xl text-white bg-gray-800 focus:ring-2 focus:ring-indigo-400 transition-all"
+>
+  <option className="bg-gray-800 text-white" value="All">All Sources</option>
+  <option className="bg-gray-800 text-white" value="Website">Website</option>
+  <option className="bg-gray-800 text-white" value="Meta Ads">Meta Ads</option>
+  <option className="bg-gray-800 text-white" value="Google Ads">Google Ads</option>
+</select>
+
           <button
             onClick={downloadExcel}
             className="bg-gradient-to-r from-green-400 to-green-600 hover:from-green-500 hover:to-green-700 text-white px-5 py-2 rounded-xl shadow-lg transform hover:scale-105 transition-all"
