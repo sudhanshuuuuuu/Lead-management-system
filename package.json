@@ -9,21 +9,24 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "file-saver": "^2.0.5",
-    "mongodb": "^6.20.0",
-    "mongoose": "^8.19.2",
-    "next": "^15.0.3",
-    "next-auth": "^4.24.11",
-    "nodemailer": "^7.0.10",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-icons": "^5.5.0",
-    "xlsx": "^0.18.5"
+    "@tailwindcss/postcss": "^4.1.16",
+    "dotenv": "16.4.5",
+    "file-saver": "2.0.5",
+    "mongodb": "6.9.0",
+    "mongoose": "8.6.0",
+    "next": "^14.2.15",
+    "next-auth": "4.24.7",
+    "nodemailer": "6.9.11",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "react-icons": "5.2.1",
+    "xlsx": "0.18.5"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4",
-    "eslint": "^9",
-    "eslint-config-next": "16.0.0",
-    "tailwindcss": "^4"
+    "autoprefixer": "^10.4.21",
+    "eslint": "8.57.0",
+    "eslint-config-next": "14.2.5",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^3.4.4"
   }
 }
