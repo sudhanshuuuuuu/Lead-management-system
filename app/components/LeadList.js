@@ -37,8 +37,6 @@ export default function LeadList({ refresh, filterTab, onLeadUpdated }) {
           )
         );
         if (onLeadUpdated) onLeadUpdated();
-      } else {
-        console.error("Failed to update lead status:", data.message);
       }
     } catch (err) {
       console.error("Error updating lead status:", err);
@@ -69,62 +67,70 @@ export default function LeadList({ refresh, filterTab, onLeadUpdated }) {
   };
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-        <h2 className="text-3xl font-bold text-indigo-700">Leads Dashboard</h2>
-        <div className="flex gap-3 flex-wrap items-center">
+    <div className="space-y-6 text-white">
+      {/* Header */}
+      <div className="flex flex-col md:flex-row justify-between items-center gap-4 flex-wrap">
+        <h2 className="text-2xl md:text-3xl font-bold text-indigo-400 text-center md:text-left">
+          Leads Dashboard
+        </h2>
+
+        <div className="flex flex-wrap justify-center md:justify-end gap-3 items-center w-full md:w-auto">
           <input
             type="text"
             placeholder="Search leads..."
-            className="border border-gray-300 p-2 text-white rounded-xl focus:ring-2 focus:ring-indigo-400 transition-all"
+            className="border border-gray-500 bg-transparent text-white p-2 rounded-xl focus:ring-2 focus:ring-indigo-400 w-full sm:w-48"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
-         <select
-  value={filter}
-  onChange={(e) => setFilter(e.target.value)}
-  className="border border-gray-300 p-2 rounded-xl text-white bg-gray-800 focus:ring-2 focus:ring-indigo-400 transition-all"
->
-  <option className="bg-gray-800 text-white" value="All">All Sources</option>
-  <option className="bg-gray-800 text-white" value="Website">Website</option>
-  <option className="bg-gray-800 text-white" value="Meta Ads">Meta Ads</option>
-  <option className="bg-gray-800 text-white" value="Google Ads">Google Ads</option>
-</select>
-
+          <select
+            value={filter}
+            onChange={(e) => setFilter(e.target.value)}
+            className="border border-gray-500 p-2 rounded-xl text-white bg-gray-800 focus:ring-2 focus:ring-indigo-400 w-full sm:w-40"
+          >
+            <option className="bg-gray-800 text-white" value="All">All Sources</option>
+            <option className="bg-gray-800 text-white" value="Website">Website</option>
+            <option className="bg-gray-800 text-white" value="Meta Ads">Meta Ads</option>
+            <option className="bg-gray-800 text-white" value="Google Ads">Google Ads</option>
+          </select>
           <button
             onClick={downloadExcel}
-            className="bg-gradient-to-r from-green-400 to-green-600 hover:from-green-500 hover:to-green-700 text-white px-5 py-2 rounded-xl shadow-lg transform hover:scale-105 transition-all"
+            className="bg-gradient-to-r from-green-500 to-green-700 hover:from-green-600 hover:to-green-800 text-white px-4 py-2 rounded-xl shadow-md w-full sm:w-auto"
           >
             ⬇ Export Excel
           </button>
         </div>
       </div>
 
-      <div className="overflow-x-auto rounded-xl shadow-lg">
-        <table className="min-w-full bg-white divide-y divide-gray-200">
-          <thead className="bg-gray-50">
+      {/* Table */}
+      <div className="overflow-x-auto rounded-xl shadow-lg bg-white text-gray-800">
+        <table className="min-w-full divide-y divide-gray-200 text-sm sm:text-base">
+          <thead className="bg-gray-100">
             <tr>
-              <th className="px-4 py-3 text-left text-gray-600">Name</th>
-              <th className="px-4 py-3 text-left text-gray-600">Contact</th>
-              <th className="px-4 py-3 text-left text-gray-600">Email</th>
-              <th className="px-4 py-3 text-left text-gray-600">Service</th>
-              <th className="px-4 py-3 text-left text-gray-600">Source</th>
-              <th className="px-4 py-3 text-left text-gray-600">Status</th>
-              <th className="px-4 py-3 text-left text-gray-600">Created At</th>
-              <th className="px-4 py-3 text-left text-gray-600">Action</th>
+              <th className="px-4 py-3 text-left font-semibold">Name</th>
+              <th className="px-4 py-3 text-left font-semibold">Contact</th>
+              <th className="px-4 py-3 text-left font-semibold">Email</th>
+              <th className="px-4 py-3 text-left font-semibold">Service</th>
+              <th className="px-4 py-3 text-left font-semibold">Source</th>
+              <th className="px-4 py-3 text-left font-semibold">Status</th>
+              <th className="px-4 py-3 text-left font-semibold">Created At</th>
+              <th className="px-4 py-3 text-left font-semibold">Action</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200">
             {filteredLeads.length ? (
               filteredLeads.map((lead) => (
-                <tr key={lead._id} className="hover:bg-indigo-50 transition-colors">
-                  <td className="px-4 py-2 font-medium">{lead.name}</td>
+                <tr key={lead._id} className="hover:bg-gray-100 transition-colors">
+                  <td className="px-4 py-2">{lead.name}</td>
                   <td className="px-4 py-2">{lead.contact}</td>
                   <td className="px-4 py-2">{lead.email}</td>
                   <td className="px-4 py-2">{lead.service}</td>
                   <td className="px-4 py-2">{lead.source}</td>
                   <td className="px-4 py-2">
-                    <span className={`px-3 py-1 rounded-full text-white font-semibold text-sm ${lead.status === "open" ? "bg-green-500" : "bg-red-500"}`}>
+                    <span
+                      className={`px-3 py-1 rounded-full text-white font-semibold text-xs sm:text-sm ${
+                        lead.status === "open" ? "bg-green-600" : "bg-red-600"
+                      }`}
+                    >
                       {(lead.status ?? "open").toUpperCase()}
                     </span>
                   </td>
@@ -139,7 +145,7 @@ export default function LeadList({ refresh, filterTab, onLeadUpdated }) {
                           lead.status === "open" ? "closed" : "open"
                         )
                       }
-                      className={`px-4 py-2 rounded-xl text-white font-medium shadow-lg transform transition-all hover:scale-105 ${
+                      className={`px-3 sm:px-4 py-2 rounded-lg text-white text-xs sm:text-sm font-medium shadow-md ${
                         lead.status === "open"
                           ? "bg-red-600 hover:bg-red-700"
                           : "bg-green-600 hover:bg-green-700"
@@ -152,7 +158,7 @@ export default function LeadList({ refresh, filterTab, onLeadUpdated }) {
               ))
             ) : (
               <tr>
-                <td colSpan={8} className="text-center py-6 text-gray-400 italic">
+                <td colSpan={8} className="text-center py-6 text-gray-500 italic">
                   No leads found 💤
                 </td>
               </tr>

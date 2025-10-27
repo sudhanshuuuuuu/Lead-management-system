@@ -9,7 +9,6 @@ import MetaLeads from "../components/MetaLeads";
 import GoogleLeads from "../components/GoogleLeads";
 import SettingsPage from "../components/SettingPage";
 
-
 import {
   AiOutlineDashboard,
   AiOutlineUserAdd,
@@ -20,16 +19,23 @@ import { FiSettings } from "react-icons/fi";
 import { FaFacebook, FaGoogle } from "react-icons/fa";
 
 export default function DashboardPage() {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
+  const [mounted, setMounted] = useState(false);
   const [activeTab, setActiveTab] = useState("dashboard");
   const [refresh, setRefresh] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [leadsSummary, setLeadsSummary] = useState({
     total: 0,
     open: 0,
     closed: 0,
   });
 
-  
+  // 🧠 Mount check (prevents hydration mismatch)
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // 🧩 Fetch Leads Summary
   const handleLeadUpdated = async () => {
     try {
       const res = await fetch("/api/test/leads");
@@ -42,7 +48,7 @@ export default function DashboardPage() {
         closed: leads.filter((l) => (l.status ?? "open") === "closed").length,
       });
 
-      setRefresh((prev) => !prev); 
+      setRefresh((prev) => !prev);
     } catch (err) {
       console.error(err);
       setLeadsSummary({ total: 0, open: 0, closed: 0 });
@@ -52,6 +58,17 @@ export default function DashboardPage() {
   useEffect(() => {
     handleLeadUpdated();
   }, []);
+
+  // ⚙️ Show loader until client fully mounted
+  if (!mounted) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-black text-white">
+        <h2 className="text-2xl font-semibold animate-pulse">
+          Loading Dashboard...
+        </h2>
+      </div>
+    );
+  }
 
   const menuItems = [
     { key: "dashboard", label: "Dashboard", icon: <AiOutlineDashboard size={20} /> },
@@ -66,16 +83,22 @@ export default function DashboardPage() {
   ];
 
   return (
-    <div className="min-h-screen flex bg-[#000000]">
-      
-      <div className="w-64 bg-gradient-to-b from-purple-900 via-purple-800 to-purple-700 text-white p-6 flex flex-col justify-between rounded-tr-3xl rounded-br-3xl shadow-lg">
+    <div className="min-h-screen flex bg-black text-white overflow-hidden">
+      {/* Sidebar */}
+      <div
+        className={`fixed md:static z-50 top-0 left-0 h-full w-64 bg-gradient-to-b from-purple-900 via-purple-800 to-purple-700 p-6 flex flex-col justify-between rounded-tr-3xl rounded-br-3xl shadow-lg transform transition-transform duration-300 
+        ${sidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}`}
+      >
         <div>
           <h2 className="text-2xl font-bold mb-8 text-center">🚀 LMS</h2>
           <nav className="flex flex-col gap-3">
             {menuItems.map((item) => (
               <button
                 key={item.key}
-                onClick={() => setActiveTab(item.key)}
+                onClick={() => {
+                  setActiveTab(item.key);
+                  setSidebarOpen(false);
+                }}
                 className={`flex items-center gap-3 w-full px-4 py-3 rounded-xl transition-all duration-200
                   ${activeTab === item.key ? "bg-white/20 font-semibold" : "hover:bg-white/10"}`}
               >
@@ -101,41 +124,63 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      
-      <div className="flex-1 p-6 md:p-12 overflow-auto">
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-4xl font-bold text-white text-center flex-1">
+      {/* Main Section */}
+      <div className="flex-1 flex flex-col h-screen overflow-hidden">
+        {/* Header */}
+        <header className="flex justify-between items-center bg-purple-900 p-4 md:p-6 shadow-lg sticky top-0 z-40">
+          <button
+            className="md:hidden text-white"
+            onClick={() => setSidebarOpen(!sidebarOpen)}
+          >
+            ☰
+          </button>
+          <h1 className="text-2xl md:text-4xl font-bold text-center w-full">
             🚀 Lead Management System
           </h1>
-        </div>
+        </header>
 
-        
-        {activeTab === "dashboard" && (
-          <div className="flex justify-around w-full max-w-4xl bg-white/10 p-12 rounded-3xl text-white mb-8 mx-auto">
-            <div className="text-center">
-              <p>Total Leads</p>
-              <p className="text-2xl font-bold">{leadsSummary.total}</p>
+        {/* Scrollable Content */}
+        <main className="flex-1 overflow-y-auto p-4 md:p-8">
+          {/* Dashboard Summary */}
+          {activeTab === "dashboard" && (
+            <div className="flex flex-col sm:flex-row justify-around w-full max-w-4xl bg-white/10 p-8 rounded-3xl text-white mb-8 mx-auto">
+              <div className="text-center">
+                <p>Total Leads</p>
+                <p className="text-2xl font-bold">{leadsSummary.total}</p>
+              </div>
+              <div className="text-center">
+                <p>Open Leads</p>
+                <p className="text-2xl font-bold">{leadsSummary.open}</p>
+              </div>
+              <div className="text-center">
+                <p>Closed Leads</p>
+                <p className="text-2xl font-bold">{leadsSummary.closed}</p>
+              </div>
             </div>
-            <div className="text-center">
-              <p>Open Leads</p>
-              <p className="text-2xl font-bold">{leadsSummary.open}</p>
-            </div>
-            <div className="text-center">
-              <p>Closed Leads</p>
-              <p className="text-2xl font-bold">{leadsSummary.closed}</p>
-            </div>
-          </div>
-        )}
+          )}
 
-        
-        {activeTab === "addLead" && <LeadForm onLeadAdded={handleLeadUpdated} />}
-        {activeTab === "newLeads" && <LeadList refresh={refresh} filterTab="new" onLeadUpdated={handleLeadUpdated} />}
-        {activeTab === "completedLeads" && <LeadList refresh={refresh} filterTab="completed" onLeadUpdated={handleLeadUpdated} />}
-        {activeTab === "recentLeads" && <LeadList refresh={refresh} filterTab="recent" onLeadUpdated={handleLeadUpdated} />}
-        {activeTab === "contacts" && <Contact />}
-        {activeTab === "metaLeads" && <MetaLeads onLeadUpdated={handleLeadUpdated} />}
-        {activeTab === "googleLeads" && <GoogleLeads onLeadUpdated={handleLeadUpdated} />}
-        {activeTab === "settings" && <SettingsPage />}
+          {/* Other Tabs */}
+          {activeTab === "addLead" && <LeadForm onLeadAdded={handleLeadUpdated} />}
+          {["newLeads", "completedLeads", "recentLeads"].includes(activeTab) && (
+            <div className="max-h-[70vh] overflow-y-auto scrollbar-thin scrollbar-thumb-purple-700 scrollbar-track-gray-800 rounded-xl">
+              <LeadList
+                refresh={refresh}
+                filterTab={
+                  activeTab === "newLeads"
+                    ? "new"
+                    : activeTab === "completedLeads"
+                    ? "completed"
+                    : "recent"
+                }
+                onLeadUpdated={handleLeadUpdated}
+              />
+            </div>
+          )}
+          {activeTab === "contacts" && <Contact />}
+          {activeTab === "metaLeads" && <MetaLeads onLeadUpdated={handleLeadUpdated} />}
+          {activeTab === "googleLeads" && <GoogleLeads onLeadUpdated={handleLeadUpdated} />}
+          {activeTab === "settings" && <SettingsPage />}
+        </main>
       </div>
     </div>
   );
