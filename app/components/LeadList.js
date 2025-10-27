@@ -68,7 +68,7 @@ export default function LeadList({ refresh, filterTab, onLeadUpdated }) {
 
   return (
     <div className="space-y-6 text-white">
-      {/* Header */}
+      
       <div className="flex flex-col md:flex-row justify-between items-center gap-4 flex-wrap">
         <h2 className="text-2xl md:text-3xl font-bold text-indigo-400 text-center md:text-left">
           Leads Dashboard
@@ -101,7 +101,7 @@ export default function LeadList({ refresh, filterTab, onLeadUpdated }) {
         </div>
       </div>
 
-      {/* Table */}
+      
       <div className="overflow-x-auto rounded-xl shadow-lg bg-white text-gray-800">
         <table className="min-w-full divide-y divide-gray-200 text-sm sm:text-base">
           <thead className="bg-gray-100">

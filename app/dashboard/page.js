@@ -30,12 +30,12 @@ export default function DashboardPage() {
     closed: 0,
   });
 
-  // 🧠 Mount check (prevents hydration mismatch)
+  
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  // 🧩 Fetch Leads Summary
+
   const handleLeadUpdated = async () => {
     try {
       const res = await fetch("/api/test/leads");
@@ -59,7 +59,7 @@ export default function DashboardPage() {
     handleLeadUpdated();
   }, []);
 
-  // ⚙️ Show loader until client fully mounted
+  
   if (!mounted) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-black text-white">
@@ -124,9 +124,9 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      {/* Main Section */}
+      
       <div className="flex-1 flex flex-col h-screen overflow-hidden">
-        {/* Header */}
+        
         <header className="flex justify-between items-center bg-purple-900 p-4 md:p-6 shadow-lg sticky top-0 z-40">
           <button
             className="md:hidden text-white"
@@ -139,9 +139,9 @@ export default function DashboardPage() {
           </h1>
         </header>
 
-        {/* Scrollable Content */}
+        
         <main className="flex-1 overflow-y-auto p-4 md:p-8">
-          {/* Dashboard Summary */}
+          
           {activeTab === "dashboard" && (
             <div className="flex flex-col sm:flex-row justify-around w-full max-w-4xl bg-white/10 p-8 rounded-3xl text-white mb-8 mx-auto">
               <div className="text-center">
@@ -159,7 +159,7 @@ export default function DashboardPage() {
             </div>
           )}
 
-          {/* Other Tabs */}
+        
           {activeTab === "addLead" && <LeadForm onLeadAdded={handleLeadUpdated} />}
           {["newLeads", "completedLeads", "recentLeads"].includes(activeTab) && (
             <div className="max-h-[70vh] overflow-y-auto scrollbar-thin scrollbar-thumb-purple-700 scrollbar-track-gray-800 rounded-xl">
