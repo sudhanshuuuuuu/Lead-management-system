@@ -1,36 +1,60 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 🚀 Lead Management System (LMS)
 
-## Getting Started
+### 🌐 [Live Demo](https://lead-management-system-fawn.vercel.app/)
+A centralized web application to manage, track, and organize leads collected from multiple sources — including **Meta Ads (Facebook/Instagram)** and **Google Ads** — in one unified dashboard.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 📖 Overview
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The **Lead Management System (LMS)** automates lead collection and provides a single platform to view, manage, and respond to leads efficiently.  
+It integrates **social ad platforms** and **custom lead forms**, enabling businesses to streamline the entire lead pipeline — from generation to conversion.  
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+It also includes **authentication (NextAuth)**, **email notifications (Nodemailer)**, and **MongoDB integration** for storing and managing data securely.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 🧩 Key Features
 
-To learn more about Next.js, take a look at the following resources:
+✅ **User Authentication**  
+- Secure login via **Email/Password**, **Google**, and **GitHub** using NextAuth.  
+- Protected routes & sessions for authenticated users only.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+✅ **Lead Management Dashboard**  
+- View and manage all leads in one place.  
+- Leads fetched dynamically from **Meta Ads**, **Google Ads**, and **manual forms (dummy data)**.  
+- CRUD operations: Add, Edit, Delete, Update lead status.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+✅ **Email Notifications (Nodemailer)**  
+- Sends confirmation and follow-up emails to clients automatically.  
 
-## Deploy on Vercel
+✅ **Real-time Updates**  
+- Automatically refreshes data when a new lead is added.  
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+✅ **MongoDB Integration**  
+- Stores all lead and user data in a secure database.  
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+✅ **Responsive Design**  
+- Fully optimized for both desktop and mobile using Tailwind CSS.
+
+✅ **Deployment on Vercel**  
+- CI/CD ready — automatically deployed from GitHub.
+
+---
+
+## 🛠️ Tech Stack
+
+| Category | Technologies |
+|-----------|---------------|
+| **Frontend** | Next.js 14, React, Tailwind CSS |
+| **Backend** | Next.js API Routes |
+| **Database** | MongoDB (Mongoose ORM) |
+| **Authentication** | NextAuth (Google & GitHub OAuth, Email/Password) |
+| **Email Service** | Nodemailer |
+| **Hosting** | Vercel |
+| **Version Control** | Git & GitHub |
+
+---
+
+## 📂 Project Structure
+
